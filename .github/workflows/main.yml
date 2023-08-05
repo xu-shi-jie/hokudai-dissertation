@@ -6,9 +6,9 @@ name: Build Dissertation
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,8 +41,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v0.1-${{ github.run_number }}
-          release_name: Automated build v0.1.${{ github.run_number }}
+          tag_name: v0.1.${{ github.run_number }}
+          release_name: Hokudai Dissertation LateX Template v0.1.${{ github.run_number }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
