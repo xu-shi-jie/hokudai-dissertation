@@ -18,6 +18,17 @@
 %
 \RequirePackage{etoolbox}
 
+\RequirePackage[
+    colorlinks,
+    citecolor=SchoolColor,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=SchoolColor,]{hyperref}
+% amsmath
+\RequirePackage{amsmath}
+\RequirePackage[acronym,section]{glossaries}
+\makeglossaries
+
 % Line spacing: dsingle/ddouble
 %   Whether to use single- or doublespacing.
 \newtoggle{DissertateSingleSpace}
@@ -44,22 +55,22 @@
 \let\oldquote\quote
 \let\endoldquote\endquote
 \renewenvironment{quote}
-    {\begin{spacing}{\dcompressedspacing}\oldquote}
-    {\endoldquote\end{spacing}}
+{\begin{spacing}{\dcompressedspacing}\oldquote}
+        {\endoldquote\end{spacing}}
 
 % Itemize with compressed spacing
 \let\olditemize\itemize
 \let\endolditemize\enditemize
 \renewenvironment{itemize}
-    {\begin{spacing}{\dcompressedspacing}\olditemize}
-    {\endolditemize\end{spacing}}
+{\begin{spacing}{\dcompressedspacing}\olditemize}
+        {\endolditemize\end{spacing}}
 
 % Enumerate with compressed spacing
 \let\oldenumerate\enumerate
 \let\endoldenumerate\endenumerate
 \renewenvironment{enumerate}
-    {\begin{spacing}{\dcompressedspacing}\oldenumerate}
-    {\endoldenumerate\end{spacing}}
+{\begin{spacing}{\dcompressedspacing}\oldenumerate}
+        {\endoldenumerate\end{spacing}}
 
 % Text layout.
 \RequirePackage[width=5.75in, letterpaper]{geometry}
@@ -75,7 +86,7 @@
 % Fonts.
 \RequirePackage{color}
 \RequirePackage{xcolor}
-\usepackage{hyperref}
+% \usepackage{hyperref}
 \RequirePackage{url}
 \RequirePackage{amssymb}
 \RequirePackage{mathspec}
@@ -89,16 +100,15 @@
 \setsansfont[Scale=MatchLowercase, BoldFont={Lato Bold}]{Lato Regular}
 \setmonofont[Scale=MatchLowercase]{Source Code Pro}
 \RequirePackage[labelfont={bf,sf,footnotesize,singlespacing},
-                textfont={sf,footnotesize,singlespacing},
-                % justification={justified,RaggedRight},
-                singlelinecheck=false,
-                margin=0pt,
-                figurewithin=chapter,
-                tablewithin=chapter]{caption}
+    textfont={sf,footnotesize,singlespacing},
+    % justification={justified,RaggedRight},
+    singlelinecheck=false,
+    margin=0pt,
+    figurewithin=chapter,
+    tablewithin=chapter]{caption}
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 \RequirePackage{microtype}
-
-
+\renewcommand{\thechapter}{\textcolor{SchoolColor}{\fontspec{Palatino Linotype Bold}\textbf{\arabic{chapter}}}}
 % Headings and headers.
 \RequirePackage{fancyhdr}
 \RequirePackage[tiny, md, sc]{titlesec}
@@ -120,7 +130,9 @@
 
 % References.
 \renewcommand\bibname{References}
-\RequirePackage[super,comma,numbers]{natbib}
+% \RequirePackage[super,comma,numbers]{natbib}
+\RequirePackage[numbers,sectionbib]{natbib}
+\RequirePackage{chapterbib}
 \renewcommand{\bibnumfmt}[1]{[#1]}
 \RequirePackage[palatino]{quotchap}
 \renewcommand*{\chapterheadstartvskip}{\vspace*{-0.5\baselineskip}}
@@ -128,32 +140,32 @@
 
 % An environment for paragraph-style section.
 \providecommand\newthought[1]{%
-   \addvspace{1.0\baselineskip plus 0.5ex minus 0.2ex}%
-   \noindent\textsc{#1}%
+    \addvspace{1.0\baselineskip plus 0.5ex minus 0.2ex}%
+    \noindent\textsc{#1}%
 }
 
 % Align reference numbers so that they do not cause an indent.
 \newlength\mybibindent
 \setlength\mybibindent{0pt}
 \renewenvironment{thebibliography}[1]
-    {\chapter*{\bibname}%
-     \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
-     \list{\@biblabel{\@arabic\c@enumiv}}
-          {\settowidth\labelwidth{\@biblabel{999}}
-           \leftmargin\labelwidth
-            \advance\leftmargin\dimexpr\labelsep+\mybibindent\relax\itemindent-\mybibindent
-           \@openbib@code
-           \usecounter{enumiv}
-           \let\p@enumiv\@empty
-           \renewcommand\theenumiv{\@arabic\c@enumiv}}
-     \sloppy
-     \clubpenalty4000
-     \@clubpenalty \clubpenalty
-     \widowpenalty4000%
-     \sfcode`\.\@m}
-    {\def\@noitemerr
-      {\@latex@warning{Empty `thebibliography' environment}}
-     \endlist}
+{\chapter*{\bibname}%
+    \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+    \list{\@biblabel{\@arabic\c@enumiv}}
+    {\settowidth\labelwidth{\@biblabel{999}}
+        \leftmargin\labelwidth
+        \advance\leftmargin\dimexpr\labelsep+\mybibindent\relax\itemindent-\mybibindent
+        \@openbib@code
+        \usecounter{enumiv}
+        \let\p@enumiv\@empty
+        \renewcommand\theenumiv{\@arabic\c@enumiv}}
+    \sloppy
+    \clubpenalty4000
+    \@clubpenalty \clubpenalty
+    \widowpenalty4000%
+    \sfcode`\.\@m}
+{\def\@noitemerr
+    {\@latex@warning{Empty `thebibliography' environment}}
+    \endlist}
 
 % Some definitions.
 \def\advisor#1{\gdef\@advisor{#1}}
@@ -188,93 +200,127 @@
 % http://isites.harvard.edu/icb/icb.do?keyword=k75408&pageid=icb.page392732
 \definecolor{SchoolColor}{rgb}{0.2157, 0.3882, 0.1529} % Crimson
 \definecolor{chaptergrey}{rgb}{0.5, 0.5, 0.5} % for chapter numbers
+\definecolor{LightGray}{gray}{0.9}
+\RequirePackage{minted}
+\renewcommand{\theFancyVerbLine}{\textcolor{SchoolColor}{\footnotesize\arabic{FancyVerbLine}}}
 
 \hypersetup{
     colorlinks,
     citecolor=SchoolColor,
     filecolor=black,
     linkcolor=black,
+    % linkcolor=SchoolColor,
     urlcolor=SchoolColor,
 }
 
 % Formatting guidelines found in:
 % http://www.gsas.harvard.edu/publications/form_of_the_phd_dissertation.php
 \renewcommand{\frontmatter}{
-	\input{frontmatter/personalize}
-	\maketitle
-	\copyrightpage
-	\abstractpage
-	\tableofcontents
-	% \listoffigures % optional
-	\dedicationpage
-	\acknowledgments
+    \setcounter{page}{-1} % avoid any page number overlap
+    \input{frontmatter/personalize}
+    \maketitle
+    \copyrightpage
+    \abstractpage
+    \acknowledgments
+    % \dedicationpage
+    \tableofcontents
+    \listoffigures % optional
+    % \listoftables % optional
+    \input{frontmatter/glossary}\printglossaries % optional
+    \newpage\pagenumbering{arabic}\setcounter{page}{1}
 }
 
+\renewcommand{\printglossaries}{
+    \newpage\chapter*{List of Terms and Acronyms}
+    \printglossary[title=Glossary]
+    \printglossary[type=\acronymtype, title=Acronyms]
+}
+
+% \renewcommand{\maketitle}{
+%     \thispagestyle{empty}
+%     \begin{center}
+%         \includegraphics[width=\textwidth]{figures/logo.pdf}
+%     \end{center}
+%     \vspace*{\fill}
+%     \vspace{100pt}
+%     \begin{center}
+%         \setstretch{2.0}
+%         \textcolor{SchoolColor}{\Huge\thetitle} \normalsize \\
+%         \setstretch{1.0}
+%         \vspace{80pt}
+%         \textsc{A Doctoral Thesis \\ by \\ {\bf \theauthor}\\
+%         \vspace{80pt}
+%         Submitted to \\ \@department \\ \@university \\ \@universitycity, \@universitystate \\
+%         \@degreemonth\ \@degreeyear}
+%     \end{center} \vspace*{\fill}
+% }
+
 \renewcommand{\maketitle}{
-	\thispagestyle{empty}
-	\begin{center}
-	    \includegraphics[width=\textwidth]{figures/logo.pdf}
-	\end{center}
-	\vspace*{\fill}
-	\vspace{100pt}
-	\begin{center}
-	\Huge \textcolor{SchoolColor}{\thetitle} \normalsize \\
-	\vspace{100pt}
-	\textsc{a dissertation presented \\ by\\
-	\theauthor\\ to\\ \@department\\
-	\vspace{12pt}
-	in partial fulfillment of the requirements\\
-	for the degree of\\ \@degree\\
-	in the division of\\ \@field\\
-	\vspace{12pt}
-	\@university\\ \@universitycity, \@universitystate\\
-	\@degreemonth\ \@degreeyear}
-	\end{center} \vspace*{\fill}
+    \thispagestyle{empty}
+    \begin{center}
+        \includegraphics[width=\textwidth]{figures/logo.pdf}
+    \end{center}
+    \vspace*{\fill}
+    \vspace{80pt}
+    \begin{center}
+        \setstretch{2.0}
+        \Huge \textcolor{SchoolColor}{\thetitle} \normalsize \\
+        \setstretch{1.0}
+        \vspace{80pt}
+        \textsc{a dissertation submitted \\ by\\
+            \theauthor\\ to\\ \@department\\
+            \vspace{12pt}
+            in partial fulfillment of the requirements\\
+            for the degree of\\ \@degree\\
+            in the division of\\ \@field\\
+            \vspace{24pt}
+            \@university\\ \@universitycity, \@universitystate\\
+            \@degreemonth\ \@degreeyear}
+    \end{center} \vspace*{\fill}
 }
 
 \newcommand{\copyrightpage}{
-	\newpage
-	\thispagestyle{empty}
-	\vspace*{\fill}
-	\scshape \noindent \small \copyright \small 2024\hspace{3pt}-- \theauthor \\
-	\noindent all rights reserved.
-	\vspace*{\fill}
-	\newpage
-	\rm
+    \newpage
+    \thispagestyle{empty}
+    \vspace*{\fill}
+    \scshape \noindent \small \copyright \small \the\year\hspace{3pt}-- \theauthor \\
+    \noindent all rights reserved.
+    \vspace*{\fill}
+    \newpage
+    \rm
 }
 
 \newcommand{\abstractpage}{
-	\newpage
-	\pagenumbering{roman}
-	\setcounter{page}{3}
-	\pagestyle{fancy}
-	\lhead{Thesis advisor: Professor \@advisor} \rhead{\@author}
-	\renewcommand{\headrulewidth}{0.0pt}
-	\vspace*{35pt}
-	\begin{center}
-	\Large \textcolor{SchoolColor}{\@title} \normalsize \\
-	\vspace*{20pt}
-	\scshape Abstract \\ \rm
-	\end{center}
-	\input{frontmatter/abstract}
-	\vspace*{\fill}
-	\newpage \lhead{} \rhead{}
-	\cfoot{\thepage}
+    \newpage
+    \pagenumbering{roman}
+    \setcounter{page}{1}
+    \pagestyle{fancy}
+    \lhead{Thesis advisor: Professor \@advisor} \rhead{\@author}
+    \renewcommand{\headrulewidth}{0.0pt}
+    \vspace*{35pt}
+    \begin{center}
+        \Large \textcolor{SchoolColor}{\@title} \normalsize \\
+        \vspace*{20pt}
+        \scshape Abstract \\ \rm
+    \end{center}
+    \input{frontmatter/abstract}
+    \vspace*{\fill}
+    \newpage \lhead{} \rhead{}
+    \cfoot{\thepage}
 }
 
 \newcommand{\dedicationpage}{
-	\newpage \thispagestyle{fancy} \vspace*{\fill}
-	\scshape \noindent \input{frontmatter/dedication}
-	\vspace*{\fill} \newpage \rm
+    \newpage \thispagestyle{fancy} \vspace*{\fill}
+    \scshape \noindent \input{frontmatter/dedication}
+    \vspace*{\fill} \newpage \rm
 }
 
 \newcommand{\acknowledgments}{
-	\chapter*{Acknowledgments}
-	\noindent
-	\input{frontmatter/thanks}
-	\vspace*{\fill} \newpage
-	\setcounter{page}{1}
-	\pagenumbering{arabic}
+    \chapter*{Acknowledgments}
+    \noindent
+    \input{frontmatter/thanks}
+    \vspace*{\fill} \newpage
+    % \setcounter{page}{1}
 }
 
 
@@ -284,8 +330,8 @@
     \end{appendices}
     \input{endmatter/personalize}
     \clearpage
-    \bibliography{references}
-    \addcontentsline{toc}{chapter}{References}
-    \bibliographystyle{apalike2}
+    % \bibliography{references}
+    % \addcontentsline{toc}{chapter}{References}
+    % \bibliographystyle{unsrtnat}
     \include{endmatter/colophon}
 }

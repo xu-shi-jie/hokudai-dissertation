@@ -1,0 +1,25 @@
+{
+    "latex-workshop.synctex.afterBuild.enabled": true,
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.formatting.latex": "none",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    // custom latex build command
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "scripts_build",
+            "tools": [
+                "run_script",
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "run_script",
+            "command": "bash",
+            "args": [
+                "-c",
+                "scripts/build"
+            ]
+        }
+    ]
+}

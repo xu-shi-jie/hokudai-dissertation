@@ -2,10 +2,11 @@
 %!TEX encoding = UTF-8 Unicode
 
 
-\documentclass{Dissertate}
+\documentclass[dsingle]{Dissertate}
+\usepackage{pdfpages,amsmath,amssymb,array,algorithm,algpseudocode,multirow}
+
 
 \begin{document}
-
 % the front matter
 \input{frontmatter/personalize}
 % \maketitle
@@ -22,22 +23,23 @@
 % \doublespacing
 
 % include each chapter...
-\setcounter{chapter}{-1}  % start chapter numbering at 0
+\setcounter{chapter}{0}  % start chapter numbering at 0
+
 \include{chapters/introduction}
 \include{chapters/chapter1}
 \include{chapters/chapter2}
 \include{chapters/chapter3}
 \include{chapters/conclusion}
+\include{chapters/publications}
 
 \setstretch{\dnormalspacing}
 
 % the back matter
 \backmatter
 
-% \clearpage
-% \bibliography{references}
-% \addcontentsline{toc}{chapter}{References}
-% \bibliographystyle{apalike2}
+% published papers
+% \includepdf[pages=-]{published/xu-onoda-2023-accurate-and-fast-prediction-of-intrinsically-disordered-protein-by-multiple-protein-language-models-and-2.pdf}
+% \includepdf[pages=-]{published/PsiPartition_Improved_Site_Partitioning_for_Genomi.pdf}
 
 % \include{endmatter/colophon}
 

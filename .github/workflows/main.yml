@@ -6,9 +6,9 @@ name: Build Dissertation
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,17 +24,19 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Set up Git Repository
-        uses: actions/checkout@v2
-      - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
+        uses: actions/checkout@v4
+      - name: Setup TeXLive
+        uses: xu-cheng/texlive-action@v2
         with:
-          root_file: dissertation.tex
-          latexmk_use_xelatex: true
+          scheme: full
+          run: bash ${GITHUB_WORKSPACE}/scripts/build
       - name: Upload PDF
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: PDF
           path: dissertation.pdf
+      - name: Get current date
+        run: echo "BUILD_TIME=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -42,17 +44,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v0.1.${{ github.run_number }}
-          release_name: Hokudai Dissertation LateX Template v0.1.${{ github.run_number }}
+          # release_name: Hokudai Dissertation LateX Template v0.1.${{ github.run_number }}
+          release_name: Hokudai_Dissertation_ShijieXu_${{ env.BUILD_TIME }}.${{ github.run_number }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: dissertation.pdf
           asset_name: dissertation.pdf
           asset_content_type: application/pdf
-

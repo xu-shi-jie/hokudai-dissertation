@@ -3,12 +3,33 @@ BASEDIR=$(dirname $0)
 cd $BASEDIR
 cd ..
 
+# For the first time, install the required fonts
+# Install font
+mkdir -p ~/.local/share/fonts
+cp fonts/* ~/.local/share/fonts/
+fc-cache -rv
+
+# use abbreviated journal names: https://github.com/xu-shi-jie/bib-journal-abbreviator
+# check if references-raw.bib is newer than references.bib or references.bib does not exist
+if [ references-raw.bib -nt references.bib ] || [ ! -f references.bib ]; then
+    python ../bib-journal-abbreviator/main.py references-raw.bib
+    mv references-raw-abbr.bib references.bib
+fi
+
 # Build the dissertation.
-xelatex dissertation
+xelatex -interaction=nonstopmode -synctex=1 -shell-escape dissertation  
+# Run bibtex on each chapter.
+for file in chapters/*.aux; do
+    bibtex chapters/`basename $file .aux`
+done
 bibtex dissertation
-xelatex dissertation
-xelatex dissertation
+makeglossaries dissertation
+xelatex -interaction=nonstopmode -synctex=1 -shell-escape dissertation
+xelatex -interaction=nonstopmode -synctex=1 -shell-escape dissertation 
+makeglossaries dissertation
+xelatex -interaction=nonstopmode -synctex=1 -shell-escape dissertation
 
-# Hide the log.
-mv "dissertation.log" ".logged"
-
+# Clean up the build files.
+rm dissertation.log dissertation.blg dissertation.out dissertation.toc dissertation.fls dissertation.fdb_latexmk *.log *.glg *.glo *.gls *.glsdefs *.ist *.lof *.acn *.alg *.aux *.bbl *.acr
+cd chapters
+rm -f *.log *.blg *.toc *.bbl *.aux 
