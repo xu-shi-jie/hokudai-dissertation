@@ -33,3 +33,4 @@ xelatex -interaction=nonstopmode -synctex=1 -shell-escape dissertation
 rm dissertation.log dissertation.blg dissertation.out dissertation.toc dissertation.fls dissertation.fdb_latexmk *.log *.glg *.glo *.gls *.glsdefs *.ist *.lof *.acn *.alg *.aux *.bbl *.acr
 cd chapters
 rm -f *.log *.blg *.toc *.bbl *.aux 
+rm -f ../endmatter/*.aux
